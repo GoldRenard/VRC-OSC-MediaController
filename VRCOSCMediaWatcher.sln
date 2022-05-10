@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaWatcherService", "MediaWatcherService\MediaWatcherService.csproj", "{C895B224-CACF-4D1E-9380-DCCB53268A56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaWatcherLib", "MediaWatcherLib\MediaWatcherLib.csproj", "{25BE16D0-1F71-4877-A0EF-94C11A0FCCBB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaWatcherLib", "MediaWatcherLib\MediaWatcherLib.csproj", "{507433D6-4C34-4674-8003-9E19385C6181}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaWatcherApp", "MediaWatcherApp\MediaWatcherApp.csproj", "{5D7F572E-ADB7-4DD2-ABA0-094F1A86A433}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +19,14 @@ Global
 		{C895B224-CACF-4D1E-9380-DCCB53268A56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C895B224-CACF-4D1E-9380-DCCB53268A56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C895B224-CACF-4D1E-9380-DCCB53268A56}.Release|Any CPU.Build.0 = Release|Any CPU
-		{25BE16D0-1F71-4877-A0EF-94C11A0FCCBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25BE16D0-1F71-4877-A0EF-94C11A0FCCBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{25BE16D0-1F71-4877-A0EF-94C11A0FCCBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{25BE16D0-1F71-4877-A0EF-94C11A0FCCBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{507433D6-4C34-4674-8003-9E19385C6181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{507433D6-4C34-4674-8003-9E19385C6181}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{507433D6-4C34-4674-8003-9E19385C6181}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{507433D6-4C34-4674-8003-9E19385C6181}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D7F572E-ADB7-4DD2-ABA0-094F1A86A433}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D7F572E-ADB7-4DD2-ABA0-094F1A86A433}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D7F572E-ADB7-4DD2-ABA0-094F1A86A433}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D7F572E-ADB7-4DD2-ABA0-094F1A86A433}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
