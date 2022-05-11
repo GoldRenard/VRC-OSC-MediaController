@@ -1,13 +1,11 @@
 ﻿
 using System;
 using MediaWatcherLib.OSC;
-using static MediaWatcherLib.MediaPoller;
 
 namespace MediaWatcherLib {
     public class MediaWatcher {
 
         public event EventHandler<MediaEventArgs> MediaChanged;
-
 
         private MediaPoller _poller;
         private UDPSender _sender;
@@ -26,7 +24,7 @@ namespace MediaWatcherLib {
             _sender = null;
         }
 
-        private void OnMediaChanged(object sender, MediaPoller.MediaEventArgs e) {
+        private void OnMediaChanged(object sender, MediaEventArgs e) {
             _sender.Send(new OscMessage("/avatar/parameters/ToggleMusic", e.IsPlaying ? 1 : 0));
             MediaChanged.Invoke(sender, e);
         }

@@ -6,35 +6,11 @@ using Windows.Media.Control;
 namespace MediaWatcherLib {
     public class MediaPoller {
 
-        public class MediaEventArgs : EventArgs {
-            public bool IsPlaying {
-                get; set;
-            }
-            public string Artist {
-                get; set;
-            }
-            public string Title {
-                get; set;
-            }
-        }
-
-        public class MediaData {
-            public GlobalSystemMediaTransportControlsSessionPlaybackStatus Status {
-                get; set;
-            }
-            public string Artist {
-                get; set;
-            }
-            public string Title {
-                get; set;
-            }
-        }
-
         private Timer _timer;
 
-        public event EventHandler<MediaEventArgs> MediaChanged;
-
         private GlobalSystemMediaTransportControlsSessionPlaybackStatus _currentStatus = GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed;
+
+        public event EventHandler<MediaEventArgs> MediaChanged;
 
         protected virtual void OnMediaEventArgs(MediaEventArgs e) {
             MediaChanged?.Invoke(this, e);
@@ -51,32 +27,28 @@ namespace MediaWatcherLib {
         private void Poll(object sender) {
             var data = GetMediaData();
             if (_currentStatus != data.Status) {
-                MediaChanged.Invoke(this, new MediaEventArgs() {
-                    IsPlaying = data.Status == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing,
-                    Artist = data.Artist,
-                    Title = data.Title
-                });
+                MediaChanged.Invoke(this, data.CreateEvent());
             }
             _currentStatus = data.Status;
         }
 
-        private MediaData GetMediaData() {
+        private PlaybackInfo GetMediaData() {
             var task = Task.Run(async () => await GetMediaDataAsync());
             return task.Result;
         }
 
-        private async Task<MediaData> GetMediaDataAsync() {
+        private async Task<PlaybackInfo> GetMediaDataAsync() {
             var sessionManager = await GlobalSystemMediaTransportControlsSessionManager.RequestAsync();
             var currentSession = sessionManager.GetCurrentSession();
             if (currentSession != null) {
                 var mediaProperties = await currentSession.TryGetMediaPropertiesAsync();
-                return new MediaData() {
+                return new PlaybackInfo() {
                     Status = currentSession.GetPlaybackInfo().PlaybackStatus,
                     Artist = mediaProperties?.Artist,
                     Title = mediaProperties?.Title
                 };
             }
-            return new MediaData() { Status = GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed };
+            return new PlaybackInfo() { Status = GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed };
         }
     }
 }
