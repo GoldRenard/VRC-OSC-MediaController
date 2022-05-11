@@ -33,8 +33,18 @@ namespace MediaWatcherLib {
         private MediaPoller _poller;
         private UDPSender _sender;
 
+        private readonly string _oscAddress;
+        private readonly int _oscPort;
+        private readonly string _targetParameter;
+
+        public MediaWatcher(string oscAddress, int oscPort, string targetParameter) {
+            _oscAddress = oscAddress;
+            _oscPort = oscPort;
+            _targetParameter = targetParameter;
+        }
+
         public void Start() {
-            _sender = new UDPSender("127.0.0.1", 9000);
+            _sender = new UDPSender(_oscAddress, _oscPort);
             _poller = new MediaPoller();
             _poller.MediaChanged += OnMediaChanged;
             _poller.Start();
@@ -48,7 +58,7 @@ namespace MediaWatcherLib {
         }
 
         private void OnMediaChanged(object sender, MediaEventArgs e) {
-            _sender.Send(new OscMessage("/avatar/parameters/ToggleMusic", e.IsPlaying ? 1 : 0));
+            _sender.Send(new OscMessage(_targetParameter, e.IsPlaying ? 1 : 0));
             MediaChanged.Invoke(sender, e);
         }
     }

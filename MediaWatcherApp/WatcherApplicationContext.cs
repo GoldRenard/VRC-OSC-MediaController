@@ -52,9 +52,21 @@ namespace MediaWatcherApp {
                 Visible = true
             };
 
-            controller = new MediaController();
+            controller = new MediaController(
+                ConfigurationAccessor.OSCListenPort,
+                ConfigurationAccessor.OSCListenSkipNextParameter,
+                ConfigurationAccessor.OSCListenSkipPreviousParameter,
+                ConfigurationAccessor.OSCListenPauseParameter,
+                ConfigurationAccessor.OSCListenPlayParameter,
+                ConfigurationAccessor.OSCListenStopParameter,
+                ConfigurationAccessor.OSCListenTogglePlayPauseParameter
+            );
 
-            watcher = new MediaWatcher();
+            watcher = new MediaWatcher(
+                ConfigurationAccessor.OSCTargetAddress,
+                ConfigurationAccessor.OSCTargetPort,
+                ConfigurationAccessor.OSCTargetParameter
+            );
             watcher.MediaChanged += (s, e) => {
                 trayIcon.Icon = e.IsPlaying ? Resource.Icon : Resource.Stop;
                 stateItem.Text = e.IsPlaying ? Resource.MenuStatePlaying : Resource.MenuStateStopped;
@@ -67,6 +79,10 @@ namespace MediaWatcherApp {
             };
 
             watcher.Start();
+
+            if (ConfigurationAccessor.OSCListenDefaultEnabled) {
+                OnControls(this, null); // just toggle it for once
+            }
         }
 
         void OnExit(object sender, EventArgs e) {

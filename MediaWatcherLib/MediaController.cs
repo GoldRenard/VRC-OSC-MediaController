@@ -28,14 +28,38 @@ using MediaWatcherLib.OSC;
 namespace MediaWatcherLib {
     public class MediaController {
 
-        private UDPListener oscListener;
+        private UDPListener _oscListener;
+        private readonly int _oscListenPort;
+        private readonly string _oscListenSkipNextParameter;
+        private readonly string _oscListenSkipPreviousParameter;
+        private readonly string _oscListenPauseParameter;
+        private readonly string _oscListenPlayParameter;
+        private readonly string _oscListenStopParameter;
+        private readonly string _oscListenTogglePlayPauseParameter;
+
+        public MediaController(
+            int oscListenPort,
+            string oscListenSkipNextParameter,
+            string oscListenSkipPreviousParameter,
+            string oscListenPauseParameter,
+            string oscListenPlayParameter,
+            string oscListenStopParameter,
+            string oscListenTogglePlayPauseParameter) {
+            _oscListenPort = oscListenPort;
+            _oscListenSkipNextParameter = oscListenSkipNextParameter;
+            _oscListenSkipPreviousParameter = oscListenSkipPreviousParameter;
+            _oscListenPauseParameter = oscListenPauseParameter;
+            _oscListenPlayParameter = oscListenPlayParameter;
+            _oscListenStopParameter = oscListenStopParameter;
+            _oscListenTogglePlayPauseParameter = oscListenTogglePlayPauseParameter;
+        }
 
         public void Start() {
-            oscListener = new UDPListener(9001, OnOscPacket);
+            _oscListener = new UDPListener(_oscListenPort, OnOscPacket);
         }
 
         public void Shutdown() {
-            oscListener.Close();
+            _oscListener.Close();
         }
 
         private void OnOscPacket(OscPacket packet) {
@@ -43,7 +67,10 @@ namespace MediaWatcherLib {
                 return;
             }
             var message = packet as OscMessage;
-            if (message == null || message.Arguments == null || message.Arguments.Count == 0) {
+            if (message == null
+                || message.Address == null
+                || message.Arguments == null
+                || message.Arguments.Count == 0) {
                 return;
             }
 
@@ -53,25 +80,20 @@ namespace MediaWatcherLib {
             }
 
             Task.Run(async () => {
-                switch (message.Address) {
-                    case "/avatar/parameters/MediaSkipNext":
-                        await MediaAccessor.TrySkipNextAsync();
-                        break;
-                    case "/avatar/parameters/MediaSkipPrevious":
-                        await MediaAccessor.TrySkipPreviousAsync();
-                        break;
-                    case "/avatar/parameters/MediaPause":
-                        await MediaAccessor.TryPauseAsync();
-                        break;
-                    case "/avatar/parameters/MediaStop":
-                        await MediaAccessor.TryStopAsync();
-                        break;
-                    case "/avatar/parameters/MediaPlay":
-                        await MediaAccessor.TryPlayAsync();
-                        break;
-                    case "/avatar/parameters/MediaTogglePlayPause":
-                        await MediaAccessor.TryTogglePlayPauseAsync();
-                        break;
+                var address = message.Address;
+
+                if (address.Equals(_oscListenSkipNextParameter)) {
+                    await MediaAccessor.TrySkipNextAsync();
+                } else if (address.Equals(_oscListenSkipPreviousParameter)) {
+                    await MediaAccessor.TrySkipPreviousAsync();
+                } else if (address.Equals(_oscListenPauseParameter)) {
+                    await MediaAccessor.TryPauseAsync();
+                } else if (address.Equals(_oscListenPlayParameter)) {
+                    await MediaAccessor.TryPlayAsync();
+                } else if (address.Equals(_oscListenStopParameter)) {
+                    await MediaAccessor.TryStopAsync();
+                } else if (address.Equals(_oscListenTogglePlayPauseParameter)) {
+                    await MediaAccessor.TryTogglePlayPauseAsync();
                 }
             });
         }
