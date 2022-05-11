@@ -24,7 +24,7 @@ SOFTWARE.
 using Windows.Media.Control;
 
 namespace MediaWatcherLib {
-    class PlaybackInfo {
+    public class PlaybackInfo {
         public GlobalSystemMediaTransportControlsSessionPlaybackStatus Status {
             get; set;
         }

@@ -29,49 +29,41 @@ using Windows.Media.Control;
 namespace MediaWatcherLib {
     public class MediaPoller {
 
-        private Timer _timer;
-
-        private GlobalSystemMediaTransportControlsSessionPlaybackStatus _currentStatus = GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed;
+        private GlobalSystemMediaTransportControlsSessionPlaybackStatus? _currentStatus = null;
 
         public event EventHandler<MediaEventArgs> MediaChanged;
+
+        private CancellationTokenSource cancellationToken = null;
 
         protected virtual void OnMediaEventArgs(MediaEventArgs e) {
             MediaChanged?.Invoke(this, e);
         }
 
         public void Start() {
-            _timer = new Timer(Poll, null, TimeSpan.Zero, TimeSpan.FromSeconds(2));
+            cancellationToken = new CancellationTokenSource();
+            CancellationToken token = cancellationToken.Token;
+
+            var task = Task.Run(async () => {
+                token.ThrowIfCancellationRequested();
+
+                while (true) {
+                    var data = await MediaAccessor.GetPlaybackInfoAsync();
+                    if (_currentStatus == null || _currentStatus != data.Status) {
+                        MediaChanged.Invoke(this, data.CreateEvent());
+                        _currentStatus = data.Status;
+                    }
+                    await Task.Delay(1000);
+                    GC.Collect();
+                    if (token.IsCancellationRequested) {
+                        token.ThrowIfCancellationRequested();
+                    }
+                }
+            }, token);
         }
 
         public void Shutdown() {
-            _timer.Dispose();
-        }
-
-        private void Poll(object sender) {
-            var data = GetMediaData();
-            if (_currentStatus != data.Status) {
-                MediaChanged.Invoke(this, data.CreateEvent());
-            }
-            _currentStatus = data.Status;
-        }
-
-        private PlaybackInfo GetMediaData() {
-            var task = Task.Run(async () => await GetMediaDataAsync());
-            return task.Result;
-        }
-
-        private async Task<PlaybackInfo> GetMediaDataAsync() {
-            var sessionManager = await GlobalSystemMediaTransportControlsSessionManager.RequestAsync();
-            var currentSession = sessionManager.GetCurrentSession();
-            if (currentSession != null) {
-                var mediaProperties = await currentSession.TryGetMediaPropertiesAsync();
-                return new PlaybackInfo() {
-                    Status = currentSession.GetPlaybackInfo().PlaybackStatus,
-                    Artist = mediaProperties?.Artist,
-                    Title = mediaProperties?.Title
-                };
-            }
-            return new PlaybackInfo() { Status = GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed };
+            cancellationToken?.Cancel();
+            cancellationToken = null;
         }
     }
 }

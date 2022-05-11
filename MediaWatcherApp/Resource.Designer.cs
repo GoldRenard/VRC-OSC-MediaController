@@ -71,6 +71,42 @@ namespace MediaWatcherApp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        internal static string MenuExit {
+            get {
+                return ResourceManager.GetString("MenuExit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Listen for controls.
+        /// </summary>
+        internal static string MenuListenForControls {
+            get {
+                return ResourceManager.GetString("MenuListenForControls", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Playing.
+        /// </summary>
+        internal static string MenuStatePlaying {
+            get {
+                return ResourceManager.GetString("MenuStatePlaying", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stopped/Paused.
+        /// </summary>
+        internal static string MenuStateStopped {
+            get {
+                return ResourceManager.GetString("MenuStateStopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon Stop {

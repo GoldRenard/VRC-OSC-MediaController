@@ -28,45 +28,64 @@ using MediaWatcherLib;
 namespace MediaWatcherApp {
     class WatcherApplicationContext : ApplicationContext {
         private readonly NotifyIcon trayIcon;
-        private readonly MenuItem currentState;
-        private readonly MenuItem songName;
+        private readonly MenuItem stateItem;
+        private readonly MenuItem songItem;
+        private readonly MenuItem controlsItem;
         private readonly MediaWatcher watcher;
+        private readonly MediaController controller;
 
         public WatcherApplicationContext() {
-            currentState = new MenuItem("Waiting") { Enabled = false };
-            songName = new MenuItem("") { Enabled = false, Visible = false };
+            stateItem = new MenuItem(Resource.MenuStateStopped) { Enabled = false };
+            songItem = new MenuItem("") { Enabled = false, Visible = false };
+            controlsItem = new MenuItem(Resource.MenuListenForControls, OnControls);
 
             var contextMenu = new ContextMenu();
-            contextMenu.MenuItems.Add(currentState);
-            contextMenu.MenuItems.Add(songName);
+            contextMenu.MenuItems.Add(stateItem);
+            contextMenu.MenuItems.Add(songItem);
             contextMenu.MenuItems.Add("-");
-            contextMenu.MenuItems.Add(new MenuItem("Exit", Exit));
+            contextMenu.MenuItems.Add(controlsItem);
+            contextMenu.MenuItems.Add(new MenuItem(Resource.MenuExit, OnExit));
 
             trayIcon = new NotifyIcon() {
-                Icon = Resource.Icon,
+                Icon = Resource.Stop,
                 ContextMenu = contextMenu,
                 Visible = true
             };
 
+            controller = new MediaController();
+
             watcher = new MediaWatcher();
             watcher.MediaChanged += (s, e) => {
                 trayIcon.Icon = e.IsPlaying ? Resource.Icon : Resource.Stop;
-                currentState.Text = e.IsPlaying ? "Playing" : "Stopped/Paused";
+                stateItem.Text = e.IsPlaying ? Resource.MenuStatePlaying : Resource.MenuStateStopped;
                 if (e.Artist != null && e.Title != null) {
-                    songName.Text = $"{e.Artist} - {e.Title}";
-                    songName.Visible = true;
+                    songItem.Text = $"{e.Artist} - {e.Title}";
+                    songItem.Visible = true;
                 } else {
-                    songName.Visible = false;
+                    songItem.Visible = false;
                 }
             };
 
             watcher.Start();
         }
 
-        void Exit(object sender, EventArgs e) {
+        void OnExit(object sender, EventArgs e) {
             trayIcon.Visible = false;
             watcher.Shutdown();
             Application.Exit();
+        }
+
+        void OnControls(object sender, EventArgs e) {
+            controlsItem.Checked = !controlsItem.Checked;
+            if (controlsItem.Checked) {
+                try {
+                    controller.Start();
+                } catch (Exception ex) {
+                    controlsItem.Checked = false;
+                }
+            } else {
+                controller.Shutdown();
+            }
         }
     }
 }

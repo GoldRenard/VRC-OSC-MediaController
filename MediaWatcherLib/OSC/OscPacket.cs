@@ -229,7 +229,7 @@ namespace MediaWatcherLib.OSC {
             int i = index + 4;
             char[] types = null;
 
-            for (; i < msg.Length; i += 4) {
+            for (; i <= msg.Length; i += 4) {
                 if (msg[i - 1] == 0) {
                     types = Encoding.ASCII.GetChars(msg.SubArray(index, i - index));
                     break;
