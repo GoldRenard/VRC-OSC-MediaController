@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MediaWatcherLib;
 
-namespace MediaWatcherApp
-{
-    class Program
-    {
+namespace MediaWatcherApp {
+    class Program {
         static void Main(string[] args) {
+            var watcher = new MediaWatcher();
+            watcher.Start();
+            Console.ReadLine();
+            watcher.Shutdown();
         }
     }
 }
