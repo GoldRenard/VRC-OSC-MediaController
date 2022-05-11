@@ -27,32 +27,32 @@ using MediaWatcherLib;
 
 namespace MediaWatcherApp {
     class WatcherApplicationContext : ApplicationContext {
-        private readonly NotifyIcon trayIcon;
-        private readonly MenuItem stateItem;
-        private readonly MenuItem songItem;
-        private readonly MenuItem controlsItem;
-        private readonly MediaWatcher watcher;
-        private readonly MediaController controller;
+        private readonly NotifyIcon _trayIcon;
+        private readonly MenuItem _stateItem;
+        private readonly MenuItem _songItem;
+        private readonly MenuItem _controlsItem;
+        private readonly MediaWatcher _watcher;
+        private readonly MediaController _controller;
 
         public WatcherApplicationContext() {
-            stateItem = new MenuItem(Resource.MenuStateStopped) { Enabled = false };
-            songItem = new MenuItem("") { Enabled = false, Visible = false };
-            controlsItem = new MenuItem(Resource.MenuListenForControls, OnControls);
+            _stateItem = new MenuItem(Resource.MenuStateStopped) { Enabled = false };
+            _songItem = new MenuItem("") { Enabled = false, Visible = false };
+            _controlsItem = new MenuItem(Resource.MenuListenForControls, OnControls);
 
             var contextMenu = new ContextMenu();
-            contextMenu.MenuItems.Add(stateItem);
-            contextMenu.MenuItems.Add(songItem);
+            contextMenu.MenuItems.Add(_stateItem);
+            contextMenu.MenuItems.Add(_songItem);
             contextMenu.MenuItems.Add("-");
-            contextMenu.MenuItems.Add(controlsItem);
+            contextMenu.MenuItems.Add(_controlsItem);
             contextMenu.MenuItems.Add(new MenuItem(Resource.MenuExit, OnExit));
 
-            trayIcon = new NotifyIcon() {
+            _trayIcon = new NotifyIcon() {
                 Icon = Resource.Stop,
                 ContextMenu = contextMenu,
                 Visible = true
             };
 
-            controller = new MediaController(
+            _controller = new MediaController(
                 ConfigurationAccessor.OSCListenPort,
                 ConfigurationAccessor.OSCListenSkipNextParameter,
                 ConfigurationAccessor.OSCListenSkipPreviousParameter,
@@ -62,23 +62,23 @@ namespace MediaWatcherApp {
                 ConfigurationAccessor.OSCListenTogglePlayPauseParameter
             );
 
-            watcher = new MediaWatcher(
+            _watcher = new MediaWatcher(
                 ConfigurationAccessor.OSCTargetAddress,
                 ConfigurationAccessor.OSCTargetPort,
                 ConfigurationAccessor.OSCTargetParameter
             );
-            watcher.MediaChanged += (s, e) => {
-                trayIcon.Icon = e.IsPlaying ? Resource.Icon : Resource.Stop;
-                stateItem.Text = e.IsPlaying ? Resource.MenuStatePlaying : Resource.MenuStateStopped;
+            _watcher.MediaChanged += (s, e) => {
+                _trayIcon.Icon = e.IsPlaying ? Resource.Icon : Resource.Stop;
+                _stateItem.Text = e.IsPlaying ? Resource.MenuStatePlaying : Resource.MenuStateStopped;
                 if (e.Artist != null && e.Title != null) {
-                    songItem.Text = $"{e.Artist} - {e.Title}";
-                    songItem.Visible = true;
+                    _songItem.Text = $"{e.Artist} - {e.Title}";
+                    _songItem.Visible = true;
                 } else {
-                    songItem.Visible = false;
+                    _songItem.Visible = false;
                 }
             };
 
-            watcher.Start();
+            _watcher.Start();
 
             if (ConfigurationAccessor.OSCListenDefaultEnabled) {
                 OnControls(this, null); // just toggle it for once
@@ -86,21 +86,22 @@ namespace MediaWatcherApp {
         }
 
         void OnExit(object sender, EventArgs e) {
-            trayIcon.Visible = false;
-            watcher.Shutdown();
+            _trayIcon.Visible = false;
+            _watcher.Shutdown();
+            _controller.Shutdown();
             Application.Exit();
         }
 
         void OnControls(object sender, EventArgs e) {
-            controlsItem.Checked = !controlsItem.Checked;
-            if (controlsItem.Checked) {
+            _controlsItem.Checked = !_controlsItem.Checked;
+            if (_controlsItem.Checked) {
                 try {
-                    controller.Start();
-                } catch (Exception ex) {
-                    controlsItem.Checked = false;
+                    _controller.Start();
+                } catch {
+                    _controlsItem.Checked = false;
                 }
             } else {
-                controller.Shutdown();
+                _controller.Shutdown();
             }
         }
     }
