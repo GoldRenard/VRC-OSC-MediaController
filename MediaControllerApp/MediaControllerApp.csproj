@@ -67,7 +67,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MediaWatcherLib\MediaControllerLib.csproj">
+    <ProjectReference Include="..\MediaControllerLib\MediaControllerLib.csproj">
       <Project>{507433d6-4c34-4674-8003-9e19385c6181}</Project>
       <Name>MediaControllerLib</Name>
     </ProjectReference>

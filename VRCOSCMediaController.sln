@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaControllerLib", "MediaWatcherLib\MediaControllerLib.csproj", "{507433D6-4C34-4674-8003-9E19385C6181}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaControllerLib", "MediaControllerLib\MediaControllerLib.csproj", "{507433D6-4C34-4674-8003-9E19385C6181}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaControllerApp", "MediaWatcherApp\MediaControllerApp.csproj", "{5D7F572E-ADB7-4DD2-ABA0-094F1A86A433}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaControllerApp", "MediaControllerApp\MediaControllerApp.csproj", "{5D7F572E-ADB7-4DD2-ABA0-094F1A86A433}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1407E8C4-6D96-478B-BAB1-4E974A55DBC1}"
 	ProjectSection(SolutionItems) = preProject
