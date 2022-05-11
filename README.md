@@ -1,7 +1,7 @@
 ﻿# Windows Media OSC Monitor for VRChat
 
 ## What is this?
-This simple console app allows you to send OSC message representing current state of system-wide media playback to your VRChat Avatar.
+This simple tray app allows you to automatically send OSC message representing current state of system-wide media playback to your VRChat Avatar.
 It sends single `ToggleMusic` parameter that can be treated as bool showing if anything is playing at the moment. 
 This way you can toggle something on your avatar showing that you're listening to music at the moment.
 

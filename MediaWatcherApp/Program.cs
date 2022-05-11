@@ -22,27 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 using System;
-using MediaWatcherLib;
+using System.Windows.Forms;
 
 namespace MediaWatcherApp {
-    class Program {
+    internal static class Program {
+
+        [STAThread]
         static void Main(string[] args) {
-            var watcher = new MediaWatcher();
-            watcher.MediaChanged += (s, e) => {
-                if (e.IsPlaying) {
-                    Console.Write("Playing");
-                } else {
-                    Console.Write("Stopped/Paused");
-                }
-                if (e.Artist != null && e.Title != null) {
-                    Console.Write($": {e.Artist} - {e.Title}");
-                }
-                Console.WriteLine();
-            };
-            watcher.Start();
-            Console.WriteLine("Media state polling started...");
-            Console.ReadLine();
-            watcher.Shutdown();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new WatcherApplicationContext());
         }
     }
 }
