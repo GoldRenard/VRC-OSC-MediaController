@@ -1,14 +1,25 @@
-﻿# Windows Media OSC Monitor for VRChat
+﻿# Windows Media OSC Controller for VRChat
 
 ## What is this?
-This simple tray app allows you to automatically send OSC message representing current state of system-wide media playback to your VRChat Avatar.
-It sends single `ToggleMusic` parameter that can be treated as bool showing if anything is playing at the moment. 
+This simple tray application allows you to automatically send OSC message to your VRChat Avatar representing current state of system-wide media playback and control the playback as well.
+
+It sends single `ToggleMusic` boolean parameter showing if anything is playing at the moment and updates it when state has changed. 
 This way you can toggle something on your avatar showing that you're listening to music at the moment.
 
+This application can also listen for incoming OSC Messages (expects boolean parameters set to true) to control the playback:
+- `MediaSkipNext` will skip to next track;
+- `MediaSkipPrevious` will skip to previous track;
+- `MediaPause` will pause playback;
+- `MediaStop` will stop playback;
+- `MediaPlay` will play/unpause playback;
+- `MediaTogglePlayPause` will toggle play/pause.
+
+Parameters names, OSC addresses and ports are fully configurable (check `.config` file).
+
 ## How it works?
-It polls WinRT (UWP) Windows API to get current playing media state with some short interval. 
-In other words, it gets the same system-wide media state available in Windows 10 Volume Flyout and Windows 11 Quick Settings media controls. 
-This application uses parts of [SharpOSC](https://github.com/ValdemarOrn/SharpOSC) project to send OSC actual messages.
+It uses WinRT (UWP) Windows API to get control media playback and get its status.
+In other words, it uses the same system-wide media interface available in Windows 10 Volume Flyout and Windows 11 Quick Settings media controls. 
+This application uses parts of [SharpOSC](https://github.com/ValdemarOrn/SharpOSC) project to send/receive OSC messages.
 
 ## Requirements 
 - Windows 10 1809 (October 2018 Update/Build 17763) or higher, Windows 11
