@@ -1,8 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Media.Control;
-using System.Threading;
 
 namespace MediaWatcherLib {
     public class MediaPoller {
@@ -11,13 +10,31 @@ namespace MediaWatcherLib {
             public bool IsPlaying {
                 get; set;
             }
+            public string Artist {
+                get; set;
+            }
+            public string Title {
+                get; set;
+            }
+        }
+
+        public class MediaData {
+            public GlobalSystemMediaTransportControlsSessionPlaybackStatus Status {
+                get; set;
+            }
+            public string Artist {
+                get; set;
+            }
+            public string Title {
+                get; set;
+            }
         }
 
         private Timer _timer;
 
         public event EventHandler<MediaEventArgs> MediaChanged;
 
-        private GlobalSystemMediaTransportControlsSessionPlaybackStatus PlaybackStatus = GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed;
+        private GlobalSystemMediaTransportControlsSessionPlaybackStatus _currentStatus = GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed;
 
         protected virtual void OnMediaEventArgs(MediaEventArgs e) {
             MediaChanged?.Invoke(this, e);
@@ -32,26 +49,34 @@ namespace MediaWatcherLib {
         }
 
         private void Poll(object sender) {
-            var status = GetStatus();
-            if (PlaybackStatus != status) {
-                MediaChanged.Invoke(this, new MediaEventArgs() { IsPlaying = status == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing });
+            var data = GetMediaData();
+            if (_currentStatus != data.Status) {
+                MediaChanged.Invoke(this, new MediaEventArgs() {
+                    IsPlaying = data.Status == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing,
+                    Artist = data.Artist,
+                    Title = data.Title
+                });
             }
-            PlaybackStatus = status;
-            Thread.Sleep(2000);
+            _currentStatus = data.Status;
         }
 
-        private GlobalSystemMediaTransportControlsSessionPlaybackStatus GetStatus() {
-            var task = Task.Run(async () => await GetStatusAsync());
+        private MediaData GetMediaData() {
+            var task = Task.Run(async () => await GetMediaDataAsync());
             return task.Result;
         }
 
-        private async Task<GlobalSystemMediaTransportControlsSessionPlaybackStatus> GetStatusAsync() {
+        private async Task<MediaData> GetMediaDataAsync() {
             var sessionManager = await GlobalSystemMediaTransportControlsSessionManager.RequestAsync();
             var currentSession = sessionManager.GetCurrentSession();
             if (currentSession != null) {
-                return currentSession.GetPlaybackInfo().PlaybackStatus;
+                var mediaProperties = await currentSession.TryGetMediaPropertiesAsync();
+                return new MediaData() {
+                    Status = currentSession.GetPlaybackInfo().PlaybackStatus,
+                    Artist = mediaProperties?.Artist,
+                    Title = mediaProperties?.Title
+                };
             }
-            return GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed;
+            return new MediaData() { Status = GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed };
         }
     }
 }
