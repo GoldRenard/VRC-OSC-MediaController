@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MediaWatcherLib.OSC {
+namespace MediaControllerLib.OSC {
     public abstract class OscPacket {
         public static OscPacket GetPacket(byte[] OscData) {
             if (OscData[0] == '#')

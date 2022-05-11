@@ -23,7 +23,7 @@ SOFTWARE.
 */
 using System;
 
-namespace MediaWatcherLib.OSC {
+namespace MediaControllerLib.OSC {
     public class Utils {
         public static DateTime TimetagToDateTime(UInt64 val) {
             if (val == 1)

@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5D7F572E-ADB7-4DD2-ABA0-094F1A86A433}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MediaWatcherApp</RootNamespace>
-    <AssemblyName>MediaWatcherApp</AssemblyName>
+    <RootNamespace>MediaControllerApp</RootNamespace>
+    <AssemblyName>MediaControllerApp</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,6 +43,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -66,9 +67,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MediaWatcherLib\MediaWatcherLib.csproj">
+    <ProjectReference Include="..\MediaWatcherLib\MediaControllerLib.csproj">
       <Project>{507433d6-4c34-4674-8003-9e19385c6181}</Project>
-      <Name>MediaWatcherLib</Name>
+      <Name>MediaControllerLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

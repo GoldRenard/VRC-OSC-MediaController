@@ -24,7 +24,7 @@ SOFTWARE.
 using System;
 using System.Windows.Forms;
 
-namespace MediaWatcherApp {
+namespace MediaControllerApp {
     internal static class Program {
 
         [STAThread]

@@ -23,9 +23,9 @@ SOFTWARE.
 */
 using System;
 using System.Windows.Forms;
-using MediaWatcherLib;
+using MediaControllerLib;
 
-namespace MediaWatcherApp {
+namespace MediaControllerApp {
     class WatcherApplicationContext : ApplicationContext {
         private readonly NotifyIcon _trayIcon;
         private readonly MenuItem _stateItem;

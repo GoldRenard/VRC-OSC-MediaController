@@ -23,7 +23,7 @@ SOFTWARE.
 */
 using System;
 
-namespace MediaWatcherLib {
+namespace MediaControllerLib {
 
     public class MediaEventArgs : EventArgs {
         public bool IsPlaying {

@@ -7,8 +7,8 @@
     <ProjectGuid>{507433D6-4C34-4674-8003-9E19385C6181}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MediaWatcherLib</RootNamespace>
-    <AssemblyName>MediaWatcherLib</AssemblyName>
+    <RootNamespace>MediaControllerLib</RootNamespace>
+    <AssemblyName>MediaControllerLib</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

@@ -25,7 +25,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 
-namespace MediaWatcherLib.OSC {
+namespace MediaControllerLib.OSC {
     public class UDPSender {
         public int Port {
             get {

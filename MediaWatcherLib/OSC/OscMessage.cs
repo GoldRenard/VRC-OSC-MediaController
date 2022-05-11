@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MediaWatcherLib.OSC {
+namespace MediaControllerLib.OSC {
     public class OscMessage : OscPacket {
         public string Address;
         public List<object> Arguments;

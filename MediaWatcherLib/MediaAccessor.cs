@@ -25,7 +25,7 @@ using System;
 using System.Threading.Tasks;
 using Windows.Media.Control;
 
-namespace MediaWatcherLib {
+namespace MediaControllerLib {
     public class MediaAccessor {
 
         private static GlobalSystemMediaTransportControlsSessionManager sessionManager;

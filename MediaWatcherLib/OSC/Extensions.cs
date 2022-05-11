@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MediaWatcherLib.OSC {
+namespace MediaControllerLib.OSC {
     internal static class Extensions {
         public static int FirstIndexAfter<T>(this IEnumerable<T> items, int start, Func<T, bool> predicate) {
             if (items == null) throw new ArgumentNullException("items");

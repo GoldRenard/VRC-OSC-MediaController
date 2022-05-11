@@ -26,7 +26,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Media.Control;
 
-namespace MediaWatcherLib {
+namespace MediaControllerLib {
     public class MediaPoller {
 
         private GlobalSystemMediaTransportControlsSessionPlaybackStatus? _currentStatus = null;

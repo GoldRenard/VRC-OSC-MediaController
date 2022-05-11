@@ -23,7 +23,7 @@ SOFTWARE.
 */
 using System.Configuration;
 
-namespace MediaWatcherLib {
+namespace MediaControllerLib {
     public static class ConfigurationAccessor {
 
         public static string OSCTargetAddress {

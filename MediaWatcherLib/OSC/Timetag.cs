@@ -23,7 +23,7 @@ SOFTWARE.
 */
 using System;
 
-namespace MediaWatcherLib.OSC {
+namespace MediaControllerLib.OSC {
     public struct Timetag {
         public UInt64 Tag;
 

@@ -23,9 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 using System;
-using MediaWatcherLib.OSC;
+using MediaControllerLib.OSC;
 
-namespace MediaWatcherLib {
+namespace MediaControllerLib {
     public class MediaWatcher {
 
         public event EventHandler<MediaEventArgs> MediaChanged;

@@ -28,7 +28,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace MediaWatcherLib.OSC {
+namespace MediaControllerLib.OSC {
     public delegate void HandleOscPacket(OscPacket packet);
     public delegate void HandleBytePacket(byte[] packet);
 
