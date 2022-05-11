@@ -14,10 +14,10 @@ This application can also listen for incoming OSC Messages (expects boolean para
 - `MediaPlay` will play/unpause playback;
 - `MediaTogglePlayPause` will toggle play/pause.
 
-Parameters names, OSC addresses and ports are fully configurable (check `.config` file).
+Parameters, OSC addresses and ports are fully configurable (check `.config` file).
 
 ## How it works?
-It uses WinRT (UWP) Windows API to get control media playback and get its status.
+It uses WinRT (UWP) Windows API to get control over media playback and retrieve its status.
 In other words, it uses the same system-wide media interface available in Windows 10 Volume Flyout and Windows 11 Quick Settings media controls. 
 This application uses parts of [SharpOSC](https://github.com/ValdemarOrn/SharpOSC) project to send/receive OSC messages.
 
