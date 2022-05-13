@@ -51,8 +51,8 @@ namespace MediaControllerLib {
         }
 
         public void Shutdown() {
-            _poller.Shutdown();
-            _sender.Close();
+            _poller?.Shutdown();
+            _sender?.Close();
             _poller = null;
             _sender = null;
         }

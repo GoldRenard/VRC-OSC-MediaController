@@ -59,7 +59,7 @@ namespace MediaControllerLib {
         }
 
         public void Shutdown() {
-            _oscListener.Close();
+            _oscListener?.Close();
         }
 
         private void OnOscPacket(OscPacket packet) {
