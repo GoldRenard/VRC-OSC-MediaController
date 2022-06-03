@@ -65,10 +65,10 @@ namespace MediaControllerLib {
             get => GetString("OSCListenTogglePlayPauseParameter", "/avatar/parameters/MediaTogglePlayPause");
         }
         public static string OSCListenInputV {
-            get => GetString("OSCListenInputV", "/avatar/parameters/PullDirectionV");
+            get => GetString("OSCListenInputV", "/avatar/parameters/MoveInputV");
         }
         public static string OSCListenInputH {
-            get => GetString("OSCListenInputV", "/avatar/parameters/PullDirectionH");
+            get => GetString("OSCListenInputV", "/avatar/parameters/MoveInputH");
         }
         private static string Get(string name) {
             return ConfigurationManager.AppSettings.Get(name);
