@@ -62,6 +62,8 @@ namespace MediaControllerApp {
                 ConfigurationAccessor.OSCListenTogglePlayPauseParameter
             );
 
+            _controller.OnOscMessage += OnOscMessage;
+
             _watcher = new MediaWatcher(
                 ConfigurationAccessor.OSCTargetAddress,
                 ConfigurationAccessor.OSCTargetPort,
@@ -82,6 +84,19 @@ namespace MediaControllerApp {
 
             if (ConfigurationAccessor.OSCListenDefaultEnabled) {
                 OnControls(this, null); // just toggle it for once
+            }
+        }
+
+        private void OnOscMessage(object sender, MediaControllerLib.OSC.OscMessage e) {
+            var value = e.Arguments[0];
+            if (value == null || !(value is float floatValue)) {
+                return;
+            }
+            // input redirect for useful things
+            if (e.Address == ConfigurationAccessor.OSCListenInputH) {
+                _watcher.SendMessage("/input/Horizontal", floatValue);
+            } else if (e.Address == ConfigurationAccessor.OSCListenInputV) {
+                _watcher.SendMessage("/input/Vertical", floatValue);
             }
         }
 

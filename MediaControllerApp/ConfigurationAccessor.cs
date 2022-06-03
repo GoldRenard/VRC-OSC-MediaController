@@ -64,7 +64,12 @@ namespace MediaControllerLib {
         public static string OSCListenTogglePlayPauseParameter {
             get => GetString("OSCListenTogglePlayPauseParameter", "/avatar/parameters/MediaTogglePlayPause");
         }
-
+        public static string OSCListenInputV {
+            get => GetString("OSCListenInputV", "/avatar/parameters/PullDirectionV");
+        }
+        public static string OSCListenInputH {
+            get => GetString("OSCListenInputV", "/avatar/parameters/PullDirectionH");
+        }
         private static string Get(string name) {
             return ConfigurationManager.AppSettings.Get(name);
         }

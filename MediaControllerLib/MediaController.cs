@@ -22,6 +22,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+using System;
 using System.Threading.Tasks;
 using MediaControllerLib.OSC;
 
@@ -36,6 +37,8 @@ namespace MediaControllerLib {
         private readonly string _oscListenPlayParameter;
         private readonly string _oscListenStopParameter;
         private readonly string _oscListenTogglePlayPauseParameter;
+
+        public event EventHandler<OscMessage> OnOscMessage;
 
         public MediaController(
             int oscListenPort,
@@ -72,6 +75,14 @@ namespace MediaControllerLib {
                 || message.Arguments == null
                 || message.Arguments.Count == 0) {
                 return;
+            }
+
+            if (OnOscMessage != null) {
+                try {
+                    OnOscMessage(this, message);
+                } catch {
+                    // ignore, we don't care
+                }
             }
 
             var value = message.Arguments[0];

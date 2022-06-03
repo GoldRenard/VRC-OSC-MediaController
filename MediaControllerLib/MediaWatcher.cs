@@ -61,5 +61,9 @@ namespace MediaControllerLib {
             _sender.Send(new OscMessage(_targetParameter, e.IsPlaying ? 1 : 0));
             MediaChanged.Invoke(sender, e);
         }
+
+        public void SendMessage(string parameterName, float value) {
+            _sender.Send(new OscMessage(parameterName, value));
+        }
     }
 }
