@@ -68,7 +68,7 @@ namespace MediaControllerLib {
             get => GetString("OSCListenInputV", "/avatar/parameters/MoveInputV");
         }
         public static string OSCListenInputH {
-            get => GetString("OSCListenInputV", "/avatar/parameters/MoveInputH");
+            get => GetString("OSCListenInputH", "/avatar/parameters/MoveInputH");
         }
         private static string Get(string name) {
             return ConfigurationManager.AppSettings.Get(name);
