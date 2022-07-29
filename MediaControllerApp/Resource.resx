@@ -125,10 +125,10 @@
     <value>Exit</value>
   </data>
   <data name="MenuGesturesIndicator" xml:space="preserve">
-    <value>Gestures Indicator</value>
+    <value>OpenVR Gestures Indicator</value>
   </data>
   <data name="MenuListenForControls" xml:space="preserve">
-    <value>Listen OSC Messages</value>
+    <value>Listen for OSC Messages</value>
   </data>
   <data name="MenuStatePlaying" xml:space="preserve">
     <value>Playing</value>

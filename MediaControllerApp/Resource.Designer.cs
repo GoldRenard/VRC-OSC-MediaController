@@ -80,7 +80,7 @@ namespace MediaControllerApp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gestures Indicator.
+        ///   Looks up a localized string similar to OpenVR Gestures Indicator.
         /// </summary>
         internal static string MenuGesturesIndicator {
             get {
@@ -89,7 +89,7 @@ namespace MediaControllerApp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Listen OSC Messages.
+        ///   Looks up a localized string similar to Listen for OSC Messages.
         /// </summary>
         internal static string MenuListenForControls {
             get {
