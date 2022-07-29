@@ -80,7 +80,16 @@ namespace MediaControllerApp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Listen for controls.
+        ///   Looks up a localized string similar to Gestures Indicator.
+        /// </summary>
+        internal static string MenuGesturesIndicator {
+            get {
+                return ResourceManager.GetString("MenuGesturesIndicator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Listen OSC Messages.
         /// </summary>
         internal static string MenuListenForControls {
             get {

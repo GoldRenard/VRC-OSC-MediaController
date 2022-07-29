@@ -124,8 +124,11 @@
   <data name="MenuExit" xml:space="preserve">
     <value>Exit</value>
   </data>
+  <data name="MenuGesturesIndicator" xml:space="preserve">
+    <value>Gestures Indicator</value>
+  </data>
   <data name="MenuListenForControls" xml:space="preserve">
-    <value>Listen for controls</value>
+    <value>Listen OSC Messages</value>
   </data>
   <data name="MenuStatePlaying" xml:space="preserve">
     <value>Playing</value>

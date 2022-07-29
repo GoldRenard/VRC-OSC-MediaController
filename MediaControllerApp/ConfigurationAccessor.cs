@@ -70,6 +70,9 @@ namespace MediaControllerLib {
         public static string OSCListenInputH {
             get => GetString("OSCListenInputH", "/avatar/parameters/MoveInputH");
         }
+        public static float OverlayAlpha {
+            get => GetFloat("OverlayAlpha", 1.0f);
+        }
         private static string Get(string name) {
             return ConfigurationManager.AppSettings.Get(name);
         }
@@ -87,6 +90,10 @@ namespace MediaControllerLib {
         private static bool GetBool(string name, bool orDefault) {
             var value = Get(name);
             return value != null ? value.ToLower().Equals("true") : orDefault;
+        }
+        private static float GetFloat(string name, float orDefault) {
+            var value = Get(name);
+            return value != null && float.TryParse(value, out float result) ? result : orDefault;
         }
     }
 }

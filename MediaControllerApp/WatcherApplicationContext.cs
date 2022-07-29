@@ -23,6 +23,7 @@ SOFTWARE.
 */
 using System;
 using System.Windows.Forms;
+using MediaControllerApp.Gestures;
 using MediaControllerLib;
 
 namespace MediaControllerApp {
@@ -31,19 +32,24 @@ namespace MediaControllerApp {
         private readonly MenuItem _stateItem;
         private readonly MenuItem _songItem;
         private readonly MenuItem _controlsItem;
+        private readonly MenuItem _gesturesItem;
+
         private readonly MediaWatcher _watcher;
         private readonly MediaController _controller;
+        private readonly GesturesManager _gesturesManager;
 
         public WatcherApplicationContext() {
             _stateItem = new MenuItem(Resource.MenuStateStopped) { Enabled = false };
             _songItem = new MenuItem("") { Enabled = false, Visible = false };
             _controlsItem = new MenuItem(Resource.MenuListenForControls, OnControls);
+            _gesturesItem = new MenuItem(Resource.MenuGesturesIndicator, OnGestures) { Enabled = false };
 
             var contextMenu = new ContextMenu();
             contextMenu.MenuItems.Add(_stateItem);
             contextMenu.MenuItems.Add(_songItem);
             contextMenu.MenuItems.Add("-");
             contextMenu.MenuItems.Add(_controlsItem);
+            contextMenu.MenuItems.Add(_gesturesItem);
             contextMenu.MenuItems.Add(new MenuItem(Resource.MenuExit, OnExit));
 
             _trayIcon = new NotifyIcon() {
@@ -80,6 +86,8 @@ namespace MediaControllerApp {
                 }
             };
 
+            _gesturesManager = new GesturesManager(ConfigurationAccessor.OverlayAlpha);
+
             _watcher.Start();
 
             if (ConfigurationAccessor.OSCListenDefaultEnabled) {
@@ -89,14 +97,29 @@ namespace MediaControllerApp {
 
         private void OnOscMessage(object sender, MediaControllerLib.OSC.OscMessage e) {
             var value = e.Arguments[0];
-            if (value == null || !(value is float floatValue)) {
+            if (value == null) {
                 return;
             }
-            // input redirect for useful things
-            if (e.Address == ConfigurationAccessor.OSCListenInputH) {
-                _watcher.SendMessage("/input/Horizontal", floatValue);
-            } else if (e.Address == ConfigurationAccessor.OSCListenInputV) {
-                _watcher.SendMessage("/input/Vertical", floatValue);
+
+            if (value is float floatValue) {
+                // input redirect for useful things
+                if (e.Address == ConfigurationAccessor.OSCListenInputH) {
+                    _watcher.SendMessage("/input/Horizontal", floatValue);
+                } else if (e.Address == ConfigurationAccessor.OSCListenInputV) {
+                    _watcher.SendMessage("/input/Vertical", floatValue);
+                } else if (e.Address == "/avatar/parameters/GestureLeftWeight") {
+                    _gesturesManager.SetGestureWeight(true, floatValue);
+                } else if (e.Address == "/avatar/parameters/GestureRightWeight") {
+                    _gesturesManager.SetGestureWeight(false, floatValue);
+                }
+            }
+
+            if (value is int intValue) {
+                if (e.Address == "/avatar/parameters/GestureLeft") {
+                    _gesturesManager.SetGestureType(true, intValue);
+                } else if (e.Address == "/avatar/parameters/GestureRight") {
+                    _gesturesManager.SetGestureType(false, intValue);
+                }
             }
         }
 
@@ -104,6 +127,7 @@ namespace MediaControllerApp {
             _trayIcon.Visible = false;
             _watcher.Shutdown();
             _controller.Shutdown();
+            _gesturesManager.Shutdown();
             Application.Exit();
         }
 
@@ -112,11 +136,26 @@ namespace MediaControllerApp {
             if (_controlsItem.Checked) {
                 try {
                     _controller.Start();
+                    _gesturesItem.Enabled = true;
                 } catch {
                     _controlsItem.Checked = false;
                 }
             } else {
                 _controller.Shutdown();
+                _gesturesItem.Enabled = false;
+            }
+        }
+
+        void OnGestures(object sender, EventArgs e) {
+            _gesturesItem.Checked = !_gesturesItem.Checked;
+            if (_gesturesItem.Checked) {
+                try {
+                    _gesturesManager.Start();
+                } catch {
+                    _gesturesItem.Checked = false;
+                }
+            } else {
+                _gesturesManager.Shutdown();
             }
         }
     }

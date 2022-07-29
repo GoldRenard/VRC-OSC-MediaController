@@ -1,6 +1,7 @@
-﻿# Windows Media OSC Controller for VRChat
+﻿# Windows Media OSC Controller and Gestures Indicator for VRChat
 
 ## What is this?
+
 This simple tray application allows you to automatically send OSC message to your VRChat Avatar representing current state of system-wide media playback and control the playback as well.
 
 It sends single `ToggleMusic` boolean parameter showing if anything is playing at the moment and updates it when state has changed. 
@@ -20,6 +21,22 @@ Parameters, OSC addresses and ports are fully configurable (check `.config` file
 It uses WinRT (UWP) Windows API to get control over media playback and retrieve its status.
 In other words, it uses the same system-wide media interface available in Windows 10 Volume Flyout and Windows 11 Quick Settings media controls. 
 This application uses parts of [SharpOSC](https://github.com/ValdemarOrn/SharpOSC) project to send/receive OSC messages.
+
+## Additional Features
+
+This application were made for personal use mostly so it also includes some additional features I would like to keep as single application.
+
+### Gestures Indicator
+
+This application includes a small OpenVR Overlay displaying VRChat gestures you're making. Think about it as simple mod-free [GesturesIndicator](https://github.com/ImTiara/VRCMods) implementation (icons credits to this mod creator).
+
+### Movement Forwarder
+This application can listen for two float OSC parameters that it will forward back to VRChat as movement input.
+It allows to control avatar movement based on its user-defined parameter values that you can change any way you want. See `App.config`:
+```
+    <add key="OSCListenInputV" value="/avatar/parameters/MoveInputV" />
+    <add key="OSCListenInputH" value="/avatar/parameters/MoveInputH" />
+```
 
 ## Requirements 
 - Windows 10 1809 (October 2018 Update/Build 17763) or higher, Windows 11
