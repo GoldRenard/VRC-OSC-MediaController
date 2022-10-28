@@ -43,7 +43,7 @@ namespace MediaControllerLib {
         }
 
         public static bool OSCListenDefaultEnabled {
-            get => GetBool("OSCListenDefaultEnabled", false);
+            get => OverlayDefaultEnabled || GetBool("OSCListenDefaultEnabled", false);
         }
 
         public static string OSCListenSkipNextParameter {
@@ -73,6 +73,15 @@ namespace MediaControllerLib {
         public static float OverlayAlpha {
             get => GetFloat("OverlayAlpha", 1.0f);
         }
+
+        public static bool OverlayDefaultEnabled {
+            get => GetBool("OverlayDefaultEnabled", false);
+        }
+
+        public static string OverlayAppKey {
+            get => GetString("OverlayAppKey", "Caramel.VRCGestures");
+        }
+
         private static string Get(string name) {
             return ConfigurationManager.AppSettings.Get(name);
         }

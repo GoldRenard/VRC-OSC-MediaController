@@ -127,14 +127,23 @@
   <data name="MenuGesturesIndicator" xml:space="preserve">
     <value>OpenVR Gestures Indicator</value>
   </data>
+  <data name="MenuInstall" xml:space="preserve">
+    <value>Install</value>
+  </data>
   <data name="MenuListenForControls" xml:space="preserve">
     <value>Listen for OSC Messages</value>
+  </data>
+  <data name="MenuManifest" xml:space="preserve">
+    <value>VRManifest</value>
   </data>
   <data name="MenuStatePlaying" xml:space="preserve">
     <value>Playing</value>
   </data>
   <data name="MenuStateStopped" xml:space="preserve">
     <value>Stopped/Paused</value>
+  </data>
+  <data name="MenuUninstall" xml:space="preserve">
+    <value>Uninstall</value>
   </data>
   <data name="Stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\stop.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

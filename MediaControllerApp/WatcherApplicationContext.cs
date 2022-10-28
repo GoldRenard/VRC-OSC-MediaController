@@ -38,11 +38,19 @@ namespace MediaControllerApp {
         private readonly MediaController _controller;
         private readonly GesturesManager _gesturesManager;
 
+        private string ManifestFile {
+            get => Application.StartupPath + "\\manifest.vrmanifest";
+        }
+
         public WatcherApplicationContext() {
             _stateItem = new MenuItem(Resource.MenuStateStopped) { Enabled = false };
             _songItem = new MenuItem("") { Enabled = false, Visible = false };
             _controlsItem = new MenuItem(Resource.MenuListenForControls, OnControls);
             _gesturesItem = new MenuItem(Resource.MenuGesturesIndicator, OnGestures) { Enabled = false };
+
+            var manifestMenu = new MenuItem(Resource.MenuManifest);
+            manifestMenu.MenuItems.Add(new MenuItem(Resource.MenuInstall, OnManifestInstall));
+            manifestMenu.MenuItems.Add(new MenuItem(Resource.MenuUninstall, OnManifestUninstall));
 
             var contextMenu = new ContextMenu();
             contextMenu.MenuItems.Add(_stateItem);
@@ -50,6 +58,7 @@ namespace MediaControllerApp {
             contextMenu.MenuItems.Add("-");
             contextMenu.MenuItems.Add(_controlsItem);
             contextMenu.MenuItems.Add(_gesturesItem);
+            contextMenu.MenuItems.Add(manifestMenu);
             contextMenu.MenuItems.Add(new MenuItem(Resource.MenuExit, OnExit));
 
             _trayIcon = new NotifyIcon() {
@@ -92,6 +101,9 @@ namespace MediaControllerApp {
 
             if (ConfigurationAccessor.OSCListenDefaultEnabled) {
                 OnControls(this, null); // just toggle it for once
+            }
+            if (ConfigurationAccessor.OverlayDefaultEnabled) {
+                OnGestures(this, null);
             }
         }
 
@@ -156,6 +168,42 @@ namespace MediaControllerApp {
                 }
             } else {
                 _gesturesManager.Shutdown();
+            }
+        }
+
+        void OnManifestInstall(object sender, EventArgs e) {
+            var apps = Valve.VR.OpenVR.Applications;
+            if (apps == null) {
+                MessageBox.Show("Please enable OpenVR first", "Manifest Install", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (!apps.IsApplicationInstalled(ConfigurationAccessor.OverlayAppKey)) {
+                var error = apps.AddApplicationManifest(ManifestFile, false);
+                if (error != Valve.VR.EVRApplicationError.None) {
+                    MessageBox.Show("Can't install manifest: " + error.ToString(), "Manifest Install Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                } else {
+                    MessageBox.Show("Manifest has been installed", "Manifest Install", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            } else {
+                MessageBox.Show("Manifest already exists", "Manifest Install", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        void OnManifestUninstall(object sender, EventArgs e) {
+            var apps = Valve.VR.OpenVR.Applications;
+            if (apps == null) {
+                MessageBox.Show("Please enable OpenVR first", "Manifest Install", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (apps.IsApplicationInstalled(ConfigurationAccessor.OverlayAppKey)) {
+                var error = apps.RemoveApplicationManifest(ManifestFile);
+                if (error != Valve.VR.EVRApplicationError.None) {
+                    MessageBox.Show("Can't uninstall manifest: " + error.ToString(), "Manifest Install Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                } else {
+                    MessageBox.Show("Manifest has been uninstalled", "Manifest Uninstall", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            } else {
+                MessageBox.Show("Manifest doesn't exists", "Manifest Uninstall", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

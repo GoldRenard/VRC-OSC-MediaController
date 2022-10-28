@@ -89,11 +89,29 @@ namespace MediaControllerApp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Install.
+        /// </summary>
+        internal static string MenuInstall {
+            get {
+                return ResourceManager.GetString("MenuInstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Listen for OSC Messages.
         /// </summary>
         internal static string MenuListenForControls {
             get {
                 return ResourceManager.GetString("MenuListenForControls", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VRManifest.
+        /// </summary>
+        internal static string MenuManifest {
+            get {
+                return ResourceManager.GetString("MenuManifest", resourceCulture);
             }
         }
         
@@ -112,6 +130,15 @@ namespace MediaControllerApp {
         internal static string MenuStateStopped {
             get {
                 return ResourceManager.GetString("MenuStateStopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall.
+        /// </summary>
+        internal static string MenuUninstall {
+            get {
+                return ResourceManager.GetString("MenuUninstall", resourceCulture);
             }
         }
         
